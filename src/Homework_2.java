@@ -2,20 +2,29 @@ import java.util.Arrays;
 
 public class Homework_2 {
     public static void main(String[] args) {
-        Task_1();
-        Task_2();
-        Task_3();
-        Task_4();
-        Task_5();
 
-        boolean b=Task_6();
+        //Задания к Уроку №2 курса Java Core.Базовый уровень.
+        // Вывод результатов организован в теле соответствующего метода.
+        //---------------------------------------------------------
+        Task_1();// Задание 1
+        Task_2();// Задание 2
+        Task_3();// Задание 3
+        Task_4();// Задание 4
+        Task_5();// Задание 5
 
+        boolean b=Task_6();// Задание 6.Формально возвращает boolean, однако вывод в данном случае реализован в теле метода.
+
+        // Аргументы для Задания 7
         int[] testArr={0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         int shiftN=5;
-        Task_7(testArr,shiftN);
 
+        Task_7(testArr,shiftN);// Задание 7
+        //-----------------------------------------------------------
     }
 
+    /*
+     Метод к Заданию 1.
+     */
     public static void Task_1(){
         int arr[]={1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
 
@@ -27,6 +36,9 @@ public class Homework_2 {
         printLine("\t\tКрайний массив: \t"+Arrays.toString(arr));
     }
 
+    /*
+     Метод к Заданию 2.
+     */
     public static void Task_2(){
         int arr[]=new int[8];
         for (int i = 0; i <arr.length; i++) arr[i]=i*3;
@@ -34,6 +46,11 @@ public class Homework_2 {
         printLine("Задание 2:");
         printLine("\t\tКрайний массив: \t"+Arrays.toString(arr));
     }
+
+    /*
+     Метод к Заданию 3.
+     */
+
     public static void Task_3(){
         int arr[]={1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1};
 
@@ -45,6 +62,10 @@ public class Homework_2 {
         }
         printLine("\t\tКрайний массив: \t"+Arrays.toString(arr));
     }
+
+    /*
+    Метод к Заданию 4.
+    */
     public static void Task_4(){
         int[][] arr = new int[5][5];
         printLine("Задание 4:");
@@ -59,6 +80,10 @@ public class Homework_2 {
         printLine("\t\tКрайний массив:");
         print2DArr(arr);
     }
+
+    /*
+    Метод к Заданию 5.
+    */
     public static void Task_5(){
         int[] arr=new int[5];
         arr=getRandomIntArray(10).clone();
@@ -72,6 +97,9 @@ public class Homework_2 {
         printLine("\t\tМаксимальное значение: \t"+arr[arr.length-1]);
     }
 
+    /*
+    Метод к Заданию 6.
+    */
     public static boolean Task_6(){
         boolean result=false;
         int arr[]={1, 1, 3, 1, 1, 1, 1, 1, 1, 1};
@@ -101,6 +129,10 @@ public class Homework_2 {
 
         return result;
     }
+
+    /*
+    Метод к Заданию 7.
+    */
     public static void Task_7(int[] arr,int shift){
         int a=0,b=0;
 
@@ -138,16 +170,21 @@ public class Homework_2 {
         } else{
             printLine("\t\tКрайний массив: \t"+Arrays.toString(arr));
         }
-
-
-
     }
 
-    public static void printLine(String s){
+    // ----------------------- Методы общего назначения класса --------------------------------
+
+    /*
+    Общий, короткий метод вывода в консоль строки
+     */
+    private static void printLine(String s){
         System.out.println(s);
     }
 
-    public static int[] getRandomIntArray(int len){
+    /*
+    Общий метод заполнения одномерного массива случайными значениями от 0 до 100
+     */
+    private static int[] getRandomIntArray(int len){
         int[] arr=new int[len];
 
         for (int i = 0; i < arr.length; i++) {
@@ -156,7 +193,10 @@ public class Homework_2 {
         return arr;
     }
 
-    public static void print2DArr(int[][] arr) {
+    /*
+     Общий метод форматирования и вывода в консоль двумерного массива
+      */
+    private static void print2DArr(int[][] arr) {
         for (int i = 0; i < arr.length; i++) {
             System.out.print("\t\t\t\t\t\t");
             for (int j = 0; j < arr[i].length; j++) {
