@@ -91,9 +91,7 @@ public class Homework_3_1 {
         println("\u2551");
 
         print("\u2551");
-        drawNSpaces(3);
-        print(RED+" Вводить можно только цифры. Ошибка приведет к завершению программы "+RESET);
-        drawNSpaces(3);
+        print(RED+" Вводить можно только цифры. Ошибка ввода приведет к завершению программы "+RESET);
         println("\u2551");
 
         print("\u2551");
@@ -103,7 +101,8 @@ public class Homework_3_1 {
         println("\u2551");
 
         print("\u255a");
-        drawHLine(74);
+        drawHLine(60);
+        print(" (RealVolAnd) ");
         println("\u255d");
     }
 
@@ -111,9 +110,11 @@ public class Homework_3_1 {
     private static void print(String str){
         System.out.print(str);
     }
+
     private static void println(String str){
         System.out.println(str);
     }
+
     private static void drawHLine(int len){
         for (int i = 0; i < len; i++) {
             print("\u2550");
