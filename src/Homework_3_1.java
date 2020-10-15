@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Homework_3_1 {
     public static Scanner scan = new Scanner(System.in);
-    private static int tryNum=3;
+    private static int tryCount=3;//Количество попыток
     public static final String RESET = "\u001B[0m";
     public static final String BLACK = "\u001B[30m";
     public static final String RED = "\u001B[31m";
@@ -20,7 +20,6 @@ public class Homework_3_1 {
         try {
             startTheGame();
             while (true) {
-
                 println("Повторить игру еще раз? 1-да/0-нет:");
                 checkAnswer(scan.nextInt());
             }
@@ -31,7 +30,7 @@ public class Homework_3_1 {
         }
     }
 
-
+//Тело программы
     private static void startTheGame() throws Exception{
        int i=0;
         int num=100;
@@ -41,7 +40,7 @@ public class Homework_3_1 {
 
             println(YELLOW + "ПОЕХАЛИ !" + RESET);
 
-            for (i = 3; i > 0; i--) {
+            for (i = tryCount; i > 0; i--) {
                 print(RESET);
                 print("Попыток осталось - " + BOLD + GREEN + i + RESET + REGUL + ". Введите число от 0 до 9:");
 
@@ -63,9 +62,9 @@ public class Homework_3_1 {
             println("");
             if (i > 0) {
                 drawNSpaces(20);
-                println(BOLD + YELLOW + "\u2b50 \u2b50 \u2b50 \u2b50" + GREEN + "  ПОЗДРАВЛЯЮ! ВЫ УГАДАЛИ !!! " + YELLOW + "\u2b50 \u2b50 \u2b50 \u2b50" + RESET + REGUL);
+                showGreetings();
             } else {
-                println("\u263a \u263a \u263a "+BOLD + RED + "НА ЭТОТ РАЗ НЕ ПОВЕЗЛО. НЕ РАССТРАИВАЙТЕСЬ. ПОПОРБУЙТЕ ЕЩЕ РАЗ." + RESET + REGUL+" \u263a \u263a \u263a");
+                showFail();
             }
             drawHLine(31);
             print(BOLD + BLACK + " ИГРА ОКОНЧЕНА " + RESET + REGUL);
@@ -75,8 +74,7 @@ public class Homework_3_1 {
 
     }
 
-
-
+    //Рисуем заголовок
     private static void drawHeader(){
         print("\u2554");
         drawHLine(30);
@@ -105,8 +103,27 @@ public class Homework_3_1 {
         print(" (RealVolAnd) ");
         println("\u255d");
     }
+//Проверяем ответ на предложение продолжить игру
+    private static void checkAnswer(int answer) throws Exception{
+        if(answer==1) {
+            startTheGame();
+        }else if(answer==0){
+            System.exit(0);
+        }else{
+            println(RED+"Простите, ответ неразборчив. Введите 1 чтобы продолжить игру, или 0 для выхода"+RESET);
+        }
 
+    }
+//Показываем поздравление
+    private static void showGreetings(){
+        println(BOLD + YELLOW + "\u2b50 \u2b50 \u2b50 \u2b50" + GREEN + "  ПОЗДРАВЛЯЮ! ВЫ УГАДАЛИ !!! " + YELLOW + "\u2b50 \u2b50 \u2b50 \u2b50" + RESET + REGUL);
+    }
+//Показываем утешение
+    private static void showFail(){
+        println("\u263a \u263a \u263a "+BOLD + RED + "НА ЭТОТ РАЗ НЕ ПОВЕЗЛО. НЕ РАССТРАИВАЙТЕСЬ. ПОПОРБУЙТЕ ЕЩЕ РАЗ." + RESET + REGUL+" \u263a \u263a \u263a");
+    }
 
+   //Графические функции
     private static void print(String str){
         System.out.print(str);
     }
@@ -126,13 +143,4 @@ public class Homework_3_1 {
         }
     }
 
-    private static void checkAnswer(int answer) throws Exception{
-        if(answer==1) {
-            startTheGame();
-        }else if(answer==0){
-            System.exit(0);
-        }else{
-            println(RED+"Простите, ответ неразборчив. Введите 1 чтобы продолжить игру, или 0 для выхода"+RESET);
-        }
-    }
 }
