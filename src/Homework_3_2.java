@@ -61,11 +61,11 @@ public class Homework_3_2 {
             int select=0;
             while((select<1)||(select>tmpArray.size())){
 
-                try {
-                    select = scan.nextInt();
-                }catch (Exception e){
-                    showError();
+                while(!scan.hasNextInt()){
+                    println(RED+"Ошибка!Нет такого варианта."+RESET);
+                    scan.nextLine();
                 }
+                select = scan.nextInt();
             }
             if(checkWord(select)) break;
         }
@@ -177,12 +177,6 @@ public class Homework_3_2 {
 
         print("\u2551");
         print(BLACK+" Я загадаю слово. Вы должны угадать его выбирая из предложенных вариантов."+RESET);
-        println("\u2551");
-
-        print("\u2551");
-        drawNSpaces(2);
-        print(RED+" Вводить нужно только номер варианта. Ошибка ввода закроет программу. "+RESET);
-        drawNSpaces(2);
         println("\u2551");
 
         print("\u2551");
