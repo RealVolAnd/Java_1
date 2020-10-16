@@ -21,7 +21,12 @@ public class Homework_3_1 {
             startTheGame();
             while (true) {
                 println("Повторить игру еще раз? 1-да/0-нет:");
-                checkAnswer(scan.nextInt());
+                if(scan.hasNextInt()){
+                    checkAnswer(scan.nextInt());
+                }else{
+                    scan.next();
+                }
+
             }
         }catch (Exception e){
             println(BOLD+RED+"Ошибка ввода. Программа завершает работу..."+RESET+REGUL);
@@ -45,6 +50,10 @@ public class Homework_3_1 {
                 print("Попыток осталось - " + BOLD + GREEN + i + RESET + REGUL + ". Введите число от 0 до 9:");
 
                 while(true){
+                    while(!scan.hasNextInt()){
+                        println(RED+"Ошибка!Введите чило от 0 до 9."+RESET);
+                        scan.nextLine();
+                    }
                     num = scan.nextInt();
                     if(num>=0&&num<10) break;
                 }
@@ -89,10 +98,6 @@ public class Homework_3_1 {
         println("\u2551");
 
         print("\u2551");
-        print(RED+" Вводить можно только цифры. Ошибка ввода приведет к завершению программы "+RESET);
-        println("\u2551");
-
-        print("\u2551");
         drawNSpaces(25);
         print(BOLD+PURPLE+" СЛЕДИТЕ ЗА ПОДСКАЗКАМИ!"+RESET+REGUL);
         drawNSpaces(25);
@@ -110,7 +115,7 @@ public class Homework_3_1 {
         }else if(answer==0){
             System.exit(0);
         }else{
-            println(RED+"Простите, ответ неразборчив. Введите 1 чтобы продолжить игру, или 0 для выхода"+RESET);
+            println(RED+"Введите 1 чтобы продолжить игру, или 0 для выхода"+RESET);
         }
 
     }
