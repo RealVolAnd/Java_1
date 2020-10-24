@@ -14,5 +14,12 @@ public class Main {
             if (pers.getAge() > 40) System.out.println(pers.toString());
         }
 
+        /*
+        Дополнительное задание:
+         */
+        HelixArray array=new HelixArray(10,8);
+        System.out.println(array.toString());
     }
+
+
 }
