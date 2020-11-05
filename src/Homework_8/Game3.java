@@ -23,7 +23,7 @@ public class Game3 {
     }
 
     public static void generateMagicNum() {
-        magicNumber = (int) (Math.random() * 8 + 1);
+        magicNumber = (int) (Math.random() * 9 + 1);
     }
 }
 
