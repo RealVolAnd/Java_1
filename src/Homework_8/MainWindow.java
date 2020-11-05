@@ -97,7 +97,7 @@ public class MainWindow extends JFrame {
             Game3.tryCount--;
             setTitle(WND_TITLE + Game3.tryCount);
 
-            if (i == Game3.magicNumber) {
+            if (i+1 == Game3.magicNumber) {
                 jbs[i].setBackground(Color.GREEN);
                 dialog.setVisible(true);
             } else {
