@@ -1,4 +1,5 @@
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -63,15 +64,15 @@ public class Homework_4 {
         String xy="";
         int result=99;
         clearMap();
-        showMap(map);
+        showMap(map,0);
         while(result==99){
 
             humanTurn();
-            showMap(map);
+            showMap(map,0);
             result=checkWinner();
             if(result!=99) break;
             aiTurn();
-            showMap(map);
+            showMap(map,1);
             result=checkWinner();
             if(result!=99) break;
         }
@@ -84,8 +85,9 @@ public class Homework_4 {
     Алгоритм решения:
     1.Проверка наличия выигрышной комбинации
     2.Обязательная блокировка противника.
-    3.Выстраивание линии
-    4.Случайный ход
+    3.Предвыигрышная ситуация
+    4.Выстраивание линии
+    5.Случайный ход
      */
     private static void aiTurn(){
         refreshVectorBig();
@@ -94,50 +96,61 @@ public class Homework_4 {
 
         int isWin=-1;
         String tmpTemplate="";
-        for (int i = 0; i < vectorBig.length; i++) {
+
             if(DOTS_TO_WIN==3){
-                if(vectorBig[i].contains("OO"+DOT_EMPTY))isWin=i;
-                if(vectorBig[i].contains("O"+DOT_EMPTY+"O"))isWin=i;
-                if(vectorBig[i].contains(DOT_EMPTY+"OO"))isWin=i;
+                for (int i = 0; i < vectorBig.length; i++) {
+                    if (vectorBig[i].contains("OO" + DOT_EMPTY)) isWin = i;
+                    if (vectorBig[i].contains("O" + DOT_EMPTY + "O")) isWin = i;
+                    if (vectorBig[i].contains(DOT_EMPTY + "OO")) isWin = i;
+                }
+                if(isWin!=-1){
+                    int isHumanWin=-1;
+                    int tmpIdx=-1;
+                    String tmpString=vectorBig[isWin];
+                    if (tmpString.contains("OO" + DOT_EMPTY)) {
+                        tmpIdx = tmpString.indexOf("OO" + DOT_EMPTY)+2;
+                    } else if(tmpString.contains(DOT_EMPTY+"OO")) {
+                        tmpIdx = tmpString.indexOf(DOT_EMPTY+"OO");
+                    }else{
+                        tmpIdx = tmpString.indexOf("O"+DOT_EMPTY+"O")+1;
+                    }
+                    putAxTurnToMap(vectorBigIndex[isWin],tmpIdx);
+                }
+
+
             } else {
-                if(vectorBig[i].contains("OOO"+DOT_EMPTY))isWin=i;
-                if(vectorBig[i].contains("O"+DOT_EMPTY+"OO"))isWin=i;
-                if(vectorBig[i].contains("OO"+DOT_EMPTY+"O"))isWin=i;
-                if(vectorBig[i].contains(DOT_EMPTY+"OOO"))isWin=i;
+                int isHumanWin=-1;
+                int tmpIdx=-1;
+
+
+                for (int i = 0; i < vectorBig.length; i++) {
+                    if (vectorBig[i].contains("OOO" + DOT_EMPTY)) isWin = i;
+                    if (vectorBig[i].contains("O" + DOT_EMPTY + "OO")) isWin = i;
+                    if (vectorBig[i].contains("OO" + DOT_EMPTY + "O")) isWin = i;
+                    if (vectorBig[i].contains(DOT_EMPTY + "OOO")) isWin = i;
+                }
+                if(isWin!=-1){
+
+                    String tmpString=vectorBig[isWin];
+
+
+                    if (tmpString.contains("OOO" + DOT_EMPTY)) {
+                        tmpIdx = tmpString.indexOf("OOO" + DOT_EMPTY)+3;
+                    } else if(tmpString.contains(DOT_EMPTY+"OOO")){
+                        tmpIdx = tmpString.indexOf(DOT_EMPTY+"OOO");
+                    }else if(tmpString.contains("O"+DOT_EMPTY+"OO")){
+                        tmpIdx = tmpString.indexOf("O"+DOT_EMPTY+"OO")+1;
+                    }else{
+                        tmpIdx = tmpString.indexOf("OO"+DOT_EMPTY+"O")+2;
+                    }
+                    putAxTurnToMap(vectorBigIndex[isWin],tmpIdx);
+
+                }
+
             }
-        }
-
-    if(isWin!=-1){
-        int tmpIdx=-1;
-        String tmpString=vectorBig[isWin];
-
-        if(DOTS_TO_WIN==3) {
-            if (tmpString.contains("OO" + DOT_EMPTY)) {
-                tmpIdx = tmpString.indexOf("OO" + DOT_EMPTY)+2;
-            } else if(tmpString.contains(DOT_EMPTY+"OO")) {
-                tmpIdx = tmpString.indexOf(DOT_EMPTY+"OO");
-            }else{
-                tmpIdx = tmpString.indexOf("O"+DOT_EMPTY+"O")+1;
-            }
-
-        }else{
-
-            if (tmpString.contains("OOO" + DOT_EMPTY)) {
-                tmpIdx = tmpString.indexOf("OOO" + DOT_EMPTY)+3;
-            } else if(tmpString.contains(DOT_EMPTY+"OOO")){
-                tmpIdx = tmpString.indexOf(DOT_EMPTY+"OOO");
-            }else if(tmpString.contains("O"+DOT_EMPTY+"OO")){
-                tmpIdx = tmpString.indexOf("O"+DOT_EMPTY+"OO")+1;
-            }else{
-                tmpIdx = tmpString.indexOf("OO"+DOT_EMPTY+"O")+2;
-            }
-        }
-        putAxTurnToMap(vectorBigIndex[isWin],tmpIdx);
-        return;
-        }
 
 
-// 1.Обязательная блокировка противника.
+// 2.Обязательная блокировка противника.
 
         if(DOTS_TO_WIN==3) {
             int isHumanWin=-1;
@@ -166,6 +179,7 @@ public class Homework_4 {
             int isHumanWin=-1;
             int tmpIdx=-1;
 
+
             for (int i = 0; i < vectorBig.length; i++) {
                 if(vectorBig[i].contains("XXX"+DOT_EMPTY))isHumanWin=i;
                 if(vectorBig[i].contains("X"+DOT_EMPTY+"XX"))isHumanWin=i;
@@ -175,6 +189,8 @@ public class Homework_4 {
                 if(vectorBig[i].contains(DOT_EMPTY+DOT_EMPTY+"XX"+DOT_EMPTY))isHumanWin=i;
             }
             if(isHumanWin>-1){
+
+
                 String tmpString=vectorBig[isHumanWin];
 
            if(tmpString.contains(DOT_EMPTY+"XX"+DOT_EMPTY+DOT_EMPTY)){
@@ -191,11 +207,43 @@ public class Homework_4 {
                     tmpIdx = tmpString.indexOf("X" + DOT_EMPTY + "XX") + 1;
                 }
                 putAxTurnToMap(vectorBigIndex[isHumanWin],tmpIdx);
+
                 return;
             }
         }
 
-// 1.Выстраивание линии
+  // 3.Предвыигрышная ситуация
+
+        if(DOTS_TO_WIN==4) {
+
+            int isLine=-1;
+            int tmpIdx=-1;
+
+
+            for (int i = 0; i < vectorBig.length; i++) {
+
+                if(vectorBig[i].contains(DOT_EMPTY+"OO" + DOT_EMPTY+DOT_EMPTY))isLine=i;
+                if(vectorBig[i].contains(DOT_EMPTY+DOT_EMPTY+"OO"+DOT_EMPTY))isLine=i;
+                if(vectorBig[i].contains(DOT_EMPTY+"O"+DOT_EMPTY+"O"+DOT_EMPTY))isLine=i;
+            }
+            if(isLine>-1){
+                String tmpString=vectorBig[isLine];
+                if(tmpString.contains(DOT_EMPTY+"OO" + DOT_EMPTY+DOT_EMPTY)) {
+                    tmpIdx = tmpString.indexOf(DOT_EMPTY+"OO" + DOT_EMPTY+DOT_EMPTY)+3;
+                }else if(tmpString.contains(DOT_EMPTY+DOT_EMPTY+"OO"+DOT_EMPTY)) {
+                    tmpIdx = tmpString.indexOf(DOT_EMPTY+DOT_EMPTY+"OO"+DOT_EMPTY)+1;
+                }else if(tmpString.contains(DOT_EMPTY+"O"+DOT_EMPTY+"O"+DOT_EMPTY)) {
+                    tmpIdx = tmpString.indexOf(DOT_EMPTY+"O"+DOT_EMPTY+"O"+DOT_EMPTY) + 2;
+                }
+                putAxTurnToMap(vectorBigIndex[isLine],tmpIdx);
+
+                return;
+            }
+        }
+
+
+
+// 4.Выстраивание линии
 
         if(DOTS_TO_WIN==3) {
             int isLine=-1;
@@ -220,6 +268,7 @@ public class Homework_4 {
             int isLine=-1;
             int tmpIdx=-1;
 
+
             for (int i = 0; i < vectorBig.length; i++) {
 
                 if(vectorBig[i].contains(DOT_EMPTY+DOT_EMPTY+DOT_EMPTY+"O"))isLine=i;
@@ -229,6 +278,7 @@ public class Homework_4 {
                 if(vectorBig[i].contains(DOT_EMPTY+"OO" + DOT_EMPTY))isLine=i;
                 if(vectorBig[i].contains(DOT_EMPTY+"OO" + DOT_EMPTY+DOT_EMPTY))isLine=i;
                 if(vectorBig[i].contains(DOT_EMPTY+DOT_EMPTY+"OO"+DOT_EMPTY))isLine=i;
+                if(vectorBig[i].contains(DOT_EMPTY+"O"+DOT_EMPTY+"O"+DOT_EMPTY))isLine=i;
             }
             if(isLine>-1){
                 String tmpString=vectorBig[isLine];
@@ -246,23 +296,28 @@ public class Homework_4 {
                     tmpIdx = tmpString.indexOf(DOT_EMPTY+"OO" + DOT_EMPTY+DOT_EMPTY)+3;
                 }else if(tmpString.contains(DOT_EMPTY+DOT_EMPTY+"OO"+DOT_EMPTY)) {
                     tmpIdx = tmpString.indexOf(DOT_EMPTY+DOT_EMPTY+"OO"+DOT_EMPTY)+1;
+                }else if(tmpString.contains(DOT_EMPTY+"O"+DOT_EMPTY+"O"+DOT_EMPTY)) {
+                    tmpIdx = tmpString.indexOf(DOT_EMPTY+"O"+DOT_EMPTY+"O"+DOT_EMPTY) + 2;
                 }
                 putAxTurnToMap(vectorBigIndex[isLine],tmpIdx);
+
                 return;
             }
         }
 
-// 1.Случайный ход
+// 5.Случайный ход
 
-        int rndVector=(int)(Math.random()*vectorBig.length-1);
+        int rndVector=(int)(Math.random()*vectorBig.length);
         while(vectorBig[rndVector].indexOf(DOT_EMPTY)<0)  {
-            rndVector=(int)(Math.random()*vectorBig.length-1);
+            rndVector=(int)(Math.random()*vectorBig.length);
         }
-        int rndIndex=(int)(Math.random()*vectorBig[rndVector].length()-1);
+
+        int rndIndex=(int)(Math.random()*vectorBig[rndVector].length());
         while(vectorBig[rndVector].charAt(rndIndex)!=DOT_EMPTY){
-            rndIndex=(int)(Math.random()*vectorBig[rndVector].length()-1);
+            rndIndex=(int)(Math.random()*vectorBig[rndVector].length());
         }
         putAxTurnToMap(vectorBigIndex[rndVector],rndIndex);
+
 
 
     }
@@ -304,7 +359,12 @@ public class Homework_4 {
             }
             x--;
             y--;
-        if(map[x][y]==DOT_EMPTY)map[x][y]='X';
+        if(map[x][y]==DOT_EMPTY){
+            map[x][y]='X';
+        } else {
+            print("Это поле занято. Повторите ход\n");
+            humanTurn();
+        }
 
     }
 
@@ -332,6 +392,7 @@ public class Homework_4 {
             }
 
         }
+
         return res;
     }
 
@@ -576,20 +637,26 @@ private static void clearBigVectorIndex(){
 
     //----------------------------------------------- SHOW MAP -----------------------------------
 
-    private static void showMap(char[][] arr) {
+    private static void showMap(char[][] arr,int whoTurn) {
 
-        println("\t\t\t\t\t\t  "+BOLD+"ИГРОВОЕ ПОЛЕ"+REGUL);
-        print("\t\t\t\t\t "+BLUE+BOLD+"Y>"+REGUL+BLUE);
+        if(whoTurn==0){
+            println("\t\t\t\t\t\t  "+BOLD+"ИГРОВОЕ ПОЛЕ"+REGUL);
+            println("\t\t\t\t\t\t  "+"(ХОД ИГРОКА)");
+        } else {
+            println("\t\t\t\t\t\t  "+BOLD+"ИГРОВОЕ ПОЛЕ"+REGUL);
+            println("\t\t\t\t\t\t  "+"( ХОД  AI )");
+        }
+        print("\t\t\t\t\t "+"  "+BLUE);
         for (int i = 0; i <MAPSIZE ; i++) {
            print("\t"+(i+1));
         }
         println(RESET);
 
-        println("\t\t\t\t  "+RED+BOLD+"X"+REGUL);
+     //   println("\t\t\t\t  "+RED+BOLD+"X"+REGUL);
 
         for (int i = 0; i < arr.length; i++) {
 
-                System.out.print("\t\t\t\t  "+RED+(i+1)+RESET+"\t");
+                System.out.print("\t\t\t\t\t"+RED+(i+1)+RESET);
 
 
             for (int j = 0; j < arr[i].length; j++) {
@@ -602,7 +669,7 @@ private static void clearBigVectorIndex(){
             }
             System.out.println();
         }
-        println("\t\t\t\t");
+        println("\t\t\t\t\t");
     }
     //-----------------------------------------  INIT THE GAME ------------------------------------
     private static void initTheGame(){
@@ -660,11 +727,11 @@ private static void clearBigVectorIndex(){
         println("");
 
         if(whoWin>0){
-            drawNSpaces(20);
+            drawNSpaces(15);
             println(BOLD + YELLOW + "\u2b50 \u2b50 \u2b50 \u2b50" + GREEN + "  ПОЗДРАВЛЯЮ! ВЫ ВЫИГРАЛИ !!! " + YELLOW + "\u2b50 \u2b50 \u2b50 \u2b50" + RESET + REGUL);
         }else if(whoWin<0){
 
-            println("\u263a \u263a \u263a "+BOLD + RED + "НА ЭТОТ РАЗ НЕ ПОВЕЗЛО. НЕ РАССТРАИВАЙТЕСЬ. ПОПОРБУЙТЕ ЕЩЕ РАЗ." + RESET + REGUL+" \u263a \u263a \u263a");
+            println(" \u263a \u263a "+BOLD + RED + "НА ЭТОТ РАЗ НЕ ПОВЕЗЛО. НЕ РАССТРАИВАЙТЕСЬ. ПОПОРБУЙТЕ ЕЩЕ РАЗ." + RESET + REGUL+" \u263a \u263a ");
         }else{
             drawNSpaces(17);
             println("\u263a \u263a \u263a "+BOLD + YELLOW + "НИЧЬЯ. ХОРОШО! ПОПОРБУЙТЕ ЕЩЕ РАЗ." + RESET + REGUL+" \u263a \u263a \u263a");
